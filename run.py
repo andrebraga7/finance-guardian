@@ -12,8 +12,16 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('finance_guardian')
 
-user_data = SHEET.worksheet('user_data')
 
-data = user_data.get_all_values()
+def welcome_message():
+    """
+    This will generate an opening welcome message to the user.
+    """
 
-print(data)
+    print(50*"_")
+    print("\n Welcome to Finance Guardian!")
+    print(" Your personal budgeting app. \n")
+    print(50*"-")
+
+
+welcome_message()
