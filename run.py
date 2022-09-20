@@ -19,9 +19,32 @@ def welcome_message():
     """
 
     print(50*"_")
-    print("\n Welcome to Finance Guardian!")
+    print("\n Welcome to Finance Guardian!\n")
     print(" Your personal budgeting app. \n")
     print(50*"-")
 
 
+def username_input():
+    """
+    Get the username from the user and verify if it already exists.
+    If it doesn't, give the user and option to create a new username.
+    """
+
+    print("\nPlease enter your username to begin.")
+    print("You can create a new one by entering it below.")
+    print("It must only contain letters and be 5 to 10 characters long.\n")
+
+    username = input("Username: \n")
+
+    return username
+
+
+def main():
+    """
+    Run all programm functions.
+    """
+    username = username_input()
+    print(username)
+
 welcome_message()
+main()
