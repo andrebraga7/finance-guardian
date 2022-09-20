@@ -34,9 +34,36 @@ def username_input():
     print("You can create a new one by entering it below.")
     print("It must only contain letters and be 5 to 10 characters long.\n")
 
-    username = input("Username: \n")
+    username = input("Username: ")
+    
+    if validate_username(username):
+        print("Valid")
+    else:
+        print("Invalid")
 
-    return username
+
+def validate_username(username):
+    """
+    Validate the username input to check if it contains only letters
+    and has between 5 and 10 characters.
+    """
+    try:
+
+        if username.isalpha() == False:
+            raise ValueError(
+                "You must only use letters for your username."
+            )
+
+        if len(username) < 5 or len(username) > 10:
+            raise ValueError(
+                "Your username must be between 5 and 10 characters long."
+            )
+
+    except ValueError as e:
+        print(f"Invalid data: {e}\nPlease try again.\n")
+        return False
+
+    return True
 
 
 def main():
@@ -46,5 +73,6 @@ def main():
     username = username_input()
     print(username)
 
+
 welcome_message()
-main()
+username_input()
