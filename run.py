@@ -30,16 +30,18 @@ def username_input():
     If it doesn't, give the user and option to create a new username.
     """
 
-    print("\nPlease enter your username to begin.")
-    print("You can create a new one by entering it below.")
-    print("It must only contain letters and be 5 to 10 characters long.\n")
+    while True:
+        print("\nPlease enter your username to begin.")
+        print("You can create a new one by entering it below.")
+        print("It must only contain letters and be 5 to 10 characters long.\n")
 
-    username = input("Username: ")
-    
-    if validate_username(username):
-        print("Valid")
-    else:
-        print("Invalid")
+        username = input("Username: ")
+
+        if validate_username(username):
+            print("Valid username")
+            break
+
+    return username
 
 
 def validate_username(username):
@@ -49,7 +51,7 @@ def validate_username(username):
     """
     try:
 
-        if username.isalpha() == False:
+        if not username.isalpha():
             raise ValueError(
                 "You must only use letters for your username."
             )
@@ -75,4 +77,4 @@ def main():
 
 
 welcome_message()
-username_input()
+main()
