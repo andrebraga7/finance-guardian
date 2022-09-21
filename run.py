@@ -173,23 +173,20 @@ def new_budget(user_id):
 
     # return the selection and analyse what was inputed
     if selection == "0":
-        print("Take me to main menu")
-    else:
-        col_num = int(selection) * 3
-        month_income = user_worksheet.col_values(col_num)[-1]
+        return
+    
+    col_num = int(selection) * 3
+    month_income = user_worksheet.col_values(col_num)[-1]
 
-        # check if a budget already exists
-        if month_income != "0":
-            print("A budget already exists.\n")
-            option = input("Would you like to create a new one? y/n\n")
+    # check if a budget already exists
+    if month_income != "0":
+        print("A budget already exists.\n")
+        option = input("Would you like to create a new one? y/n\n")
 
-            # if option == "y":
-            #     budget = create_new_budget(user_worksheet)
-            if option == "n":
-                print("Return to main menu")
-                return
-        else:
-            budget = create_new_budget(user_worksheet)
+        if option == "n":
+            return
+        
+    budget = create_new_budget(user_worksheet)
 
     save_budget(user_worksheet, budget, col_num)
 
@@ -273,17 +270,17 @@ def save_budget(user_worksheet, budget, col_num):
     option = input("\nWould you like to save the budget? y/n ")
 
     if option == "y":
+        print("\nSaving budget...")
 
         # iterate through the list and update the sheet
         for ind in range(len(budget)):
             row = ind + 2
             value = budget[ind]
             user_worksheet.update_cell(row, col_num, value)
-    
+
+        print("\nBudget successfully saved!\n")
     else:
-        print(
-            "Budget not saved."
-            "Returning to main menu.")
+        print("Budget not saved.")
 
 
 def main():
@@ -294,12 +291,13 @@ def main():
     username = username_input()
     name, user_id = load_username(username)
 
-    print(
-        f"Welcome {name.title()}!\n"
-        "Please select one of the options bellow:")
-    
+    print(75 * "-")
+    print(f"\nWelcome {name.title()}!\n")
+
     while True:
 
+        print(75 * "-")
+        print("\nPlease select one of the options bellow:\n")
         print(
             "\n1. New budget\n"
             "2. View budget\n"
@@ -333,5 +331,4 @@ def main():
             print("Invalid option")
 
 
-# main()
-new_budget("1")
+main()
