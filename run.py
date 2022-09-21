@@ -18,10 +18,10 @@ def welcome_message():
     This will generate an opening welcome message to the user.
     """
 
-    print(50*"_")
+    print(70*"_")
     print("\n Welcome to Finance Guardian!\n")
     print(" Your personal budgeting app. \n")
-    print(50*"-")
+    print(70*"-")
 
 
 def username_input():
@@ -31,9 +31,10 @@ def username_input():
     """
 
     while True:
-        print("\nPlease enter your username to begin.")
+        print("\nPlease enter your username to begin.\n")
         print("You can create a new one by entering it below.")
-        print("It must only contain letters and be 5 to 10 characters long.\n")
+        print("It must only contain letters and or numbers")
+        print("and be 5 to 10 characters long.\n")
 
         username = input("Username: ")
 
@@ -47,13 +48,14 @@ def username_input():
 def validate_username(username):
     """
     Validate the username input to check if it contains only letters
-    and has between 5 and 10 characters.
+    and or numbers, and has between 5 and 10 characters.
     """
+
     try:
 
-        if not username.isalpha():
+        if not username.isalnum():
             raise ValueError(
-                "You must only use letters for your username."
+                "You must only use letters and or numbers for your username."
             )
 
         if len(username) < 5 or len(username) > 10:
