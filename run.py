@@ -176,57 +176,22 @@ def new_budget(user_id):
         print("Take me to main menu")
     else:
         col_num = int(selection) * 3
-        budget = user_worksheet.col_values(col_num)[1:]
+        month_income = user_worksheet.col_values(col_num)[-1]
 
         # check if a budget already exists
-        if len(budget) > 0:
+        if month_income != "0":
             print("A budget already exists.\n")
-            option = input("Would you like to update it instead? y/n\n")
+            option = input("Would you like to create a new one? y/n\n")
 
-            if option == "y":
-                print("Update budget instead\n")
-            else:
+            # if option == "y":
+            #     budget = create_new_budget(user_worksheet)
+            if option == "n":
                 print("Return to main menu")
                 return
         else:
-            create_new_budget(user_worksheet)
+            budget = create_new_budget(user_worksheet)
 
-    print("new budget created")
-
-
-def create_new_budget(user_worksheet):
-    """
-    Creates a new budget and displays it to the user.
-    """
-
-    while True:
-
-        income = input("\nPlease enter the income for the month: ")
-
-        if income.replace(".", "", 1).isdigit():
-            income = float(income)
-            break
-        else:
-            print("Please enter a valid number.\n")
-            continue
-
-    # Get the standard budget and apply it to the income.
-    standard_budget = user_worksheet.col_values(2)[1:]
-    budget = [(income * float(num)) for num in standard_budget]
-
-    # Then create a dictionary to display the newly generated budget
-    budget_categories = user_worksheet.col_values(1)[1:]
-    user_budget = dict(zip(budget_categories, budget))
-
-    print(75 * "-")
-    print("\nNew budget\n")
-    print(75 * "-")
-
-    # Display the budget to the user
-    for category, value in user_budget.items():
-        print(f"{category:25} {value:25}")
-
-    print("\n")
+    save_budget(user_worksheet, budget, col_num)
 
 
 def select_month():
@@ -264,6 +229,61 @@ def validate_month(selection):
         return False
 
     return True
+
+
+def create_new_budget(user_worksheet):
+    """
+    Creates a new budget and displays it to the user.
+    """
+
+    while True:
+
+        income = input("\nPlease enter the income for the month: ")
+
+        if income.replace(".", "", 1).isdigit():
+            income = float(income)
+            break
+        
+        print("Please enter a valid number.\n")
+
+    # Get the standard budget and apply it to the income.
+    standard_budget = user_worksheet.col_values(2)[1:]
+    budget = [str((income * float(num))) for num in standard_budget]
+
+    # Then create a dictionary to display the newly generated budget
+    budget_categories = user_worksheet.col_values(1)[1:]
+    user_budget = dict(zip(budget_categories, budget))
+
+    print(75 * "-")
+    print("\nNew budget\n")
+    print(75 * "-")
+
+    # Display the budget to the user
+    for category, value in user_budget.items():
+        print(f"{category:25} {value:25}")
+
+    return budget
+
+
+def save_budget(user_worksheet, budget, col_num):
+    """
+    Gives the user to save the budget or not.
+    """
+
+    option = input("\nWould you like to save the budget? y/n ")
+
+    if option == "y":
+
+        # iterate through the list and update the sheet
+        for ind in range(len(budget)):
+            row = ind + 2
+            value = budget[ind]
+            user_worksheet.update_cell(row, col_num, value)
+    
+    else:
+        print(
+            "Budget not saved."
+            "Returning to main menu.")
 
 
 def main():
