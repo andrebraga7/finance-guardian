@@ -87,17 +87,66 @@ def load_username(username):
             break
         
         print(f"Username: {username} not found!\n")
-        option = input("Would you like to create a new username? y/n ")
+        option = input("Would you like to create a new username? y/n\n")
             
         if option == "y":
-            print("Creating username")
-            name = "Something"
-            user_id = "X"
+            name, user_id = create_username(username)
+            print("User data successfully loaded\n")
             break
 
         username = username_input()
 
     return name, user_id
+
+
+def create_username(username):
+    """
+    Create a new username with a new user_id
+    and generate a new blank worksheet.
+    """
+
+    while True:
+
+        name = input("Please enter your first and last name: ")
+
+        if validate_letters_only(name):
+            print("Creating user data...")
+            break
+
+    users = SHEET.worksheet("users")
+
+    # get the last number of the id column and add 1
+    id_data = users.col_values(1)
+    user_id = int(id_data[-1]) + 1
+
+    user_data = [user_id, username, name]
+    users.append_row(user_data)
+    print("User data successfully created.\n")
+
+    return name, user_id
+
+
+def validate_letters_only(data):
+    """
+    Validates is the input data is letters only.
+    """
+
+    try:
+        if not all(cha.isalpha() or cha.isspace() for cha in data):
+            raise ValueError(
+                "You must only use letters and spaces."
+            )
+        
+        if data.isspace() or len(data) == 0:
+            raise ValueError(
+                "Your name and last name cannot be empty."
+            )
+
+    except ValueError as e:
+        print(f"Invalid data: {e}. Please try again.\n")
+        return False
+
+    return True
 
 
 def main():
