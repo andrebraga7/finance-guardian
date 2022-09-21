@@ -26,8 +26,7 @@ def welcome_message():
 
 def username_input():
     """
-    Get the username from the user and verify if it already exists.
-    If it doesn't, give the user and option to create a new username.
+    Get the username from the user and validate.
     """
 
     while True:
@@ -39,7 +38,7 @@ def username_input():
         username = input("Username: ")
 
         if validate_username(username):
-            print("Valid username\n")
+            print("Loading user data...\n")
             break
 
     return username
@@ -52,7 +51,6 @@ def validate_username(username):
     """
 
     try:
-
         if not username.isalnum():
             raise ValueError(
                 "You must only use letters and or numbers for your username."
@@ -73,20 +71,33 @@ def validate_username(username):
 def load_username(username):
     """
     Check if the input username exists in the worksheet and if not,
-    give the user an option to create a new one.
+    give the user an option to create a new one. If the user selects
+    not to create a new one, it loops back to the username input.
     """
 
-    users = SHEET.worksheet("users")
-    find_user = users.find(username)
+    while True:
 
-    if find_user is not None:
-        name = users.cell(find_user.row, 3).value
-    else:
-        print(f"Username {username} not found!")
-        option = input("Would you like to create a new username? Y/N ")
-        return option
+        users = SHEET.worksheet("users")
+        find_user = users.find(username)
 
-    return name
+        if find_user is not None:
+            name = users.cell(find_user.row, 3).value
+            user_id = users.cell(find_user.row, 1).value
+            print("User data successfully loaded\n")
+            break
+        
+        print(f"Username: {username} not found!\n")
+        option = input("Would you like to create a new username? y/n ")
+            
+        if option == "y":
+            print("Creating username")
+            name = "Something"
+            user_id = "X"
+            break
+
+        username = username_input()
+
+    return name, user_id
 
 
 def main():
@@ -94,8 +105,8 @@ def main():
     Run all programm functions.
     """
     username = username_input()
-    name = load_username(username)
-    print(f"Welcome {name}")
+    name, user_id = load_username(username)
+    print(name, user_id)
 
 
 welcome_message()
