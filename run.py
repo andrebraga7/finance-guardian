@@ -159,10 +159,41 @@ def main():
     """
     Run all programm functions.
     """
+    welcome_message()
     username = username_input()
     name, user_id = load_username(username)
-    print(name, user_id)
+
+    print(
+        f"Welcome {name.title()}!\n"
+        "Please select one of the options bellow:")
+    
+    while True:
+
+        print(
+            "\n1. New budget\n"
+            "2. View budget\n"
+            "3. Update budget\n"
+            "4. Add transaction\n"
+            "5. View transactions\n"
+            "6. Log out\n")
+
+        option = input("Your selections: ")
+
+        if option == "1":
+            print("New budget")
+        elif option == "2":
+            print("View budget")
+        elif option == "3":
+            print("Update budget")
+        elif option == "4":
+            print("Add transaction")
+        elif option == "5":
+            print("View transactions")
+        elif option == "6":
+            print("Thank you for using Finance Guardian, good bye!")
+            quit()
+        else:
+            print("Invalid option")
 
 
-welcome_message()
 main()
