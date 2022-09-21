@@ -107,20 +107,26 @@ def create_username(username):
 
     while True:
 
-        name = input("Please enter your first and last name: ")
+        name = input("Please enter your first and last name:\n")
 
         if validate_letters_only(name):
             print("Creating user data...")
             break
 
-    users = SHEET.worksheet("users")
+    users_worksheet = SHEET.worksheet("users")
 
     # get the last number of the id column and add 1
-    id_data = users.col_values(1)
+    id_data = users_worksheet.col_values(1)
     user_id = int(id_data[-1]) + 1
+    print(user_id)
 
     user_data = [user_id, username, name]
-    users.append_row(user_data)
+    users_worksheet.append_row(user_data)
+
+    # create a new blank worksheet with the user_id
+    blank_worksheet = SHEET.worksheet("blank")
+    blank_worksheet.duplicate(new_sheet_name=f"{user_id}")
+
     print("User data successfully created.\n")
 
     return name, user_id
@@ -139,7 +145,7 @@ def validate_letters_only(data):
         
         if data.isspace() or len(data) == 0:
             raise ValueError(
-                "Your name and last name cannot be empty."
+                "This field cannot be empty."
             )
 
     except ValueError as e:
