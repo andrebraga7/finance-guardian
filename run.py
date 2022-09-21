@@ -39,7 +39,7 @@ def username_input():
         username = input("Username: ")
 
         if validate_username(username):
-            print("Valid username")
+            print("Valid username\n")
             break
 
     return username
@@ -70,12 +70,32 @@ def validate_username(username):
     return True
 
 
+def load_username(username):
+    """
+    Check if the input username exists in the worksheet and if not,
+    give the user an option to create a new one.
+    """
+
+    users = SHEET.worksheet("users")
+    find_user = users.find(username)
+
+    if find_user is not None:
+        name = users.cell(find_user.row, 3).value
+    else:
+        print(f"Username {username} not found!")
+        option = input("Would you like to create a new username? Y/N ")
+        return option
+
+    return name
+
+
 def main():
     """
     Run all programm functions.
     """
     username = username_input()
-    print(username)
+    name = load_username(username)
+    print(f"Welcome {name}")
 
 
 welcome_message()
