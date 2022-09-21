@@ -161,31 +161,72 @@ def new_budget(user_id):
     and call the create_new_budget function.
     """
 
+    # Title
+    print(75 * "-")
+    print("\nCreate new budget\n")
+    print(75 * "-")
+
     user_worksheet = SHEET.worksheet(user_id)
 
+    # function to allow the user to select a month and validate
     selection = select_month()
+
+    # return the selection and analyse what was inputed
     if selection == "0":
         print("Take me to main menu")
     else:
         col_num = int(selection) * 3
-        column = user_worksheet.col_values(col_num)
-        budget = column[1:]
-        print(len(budget))
-        print(budget)
+        budget = user_worksheet.col_values(col_num)[1:]
+
+        # check if a budget already exists
         if len(budget) > 0:
-            print(
-                "A budget already exists.\n"
-                "Would you like to view it instead?")
+            print("A budget already exists.\n")
+            option = input("Would you like to update it instead? y/n\n")
+
+            if option == "y":
+                print("Update budget instead\n")
+            else:
+                print("Return to main menu")
+                return
         else:
-            create_new_budget()
+            create_new_budget(user_worksheet)
+
+    print("new budget created")
 
 
-def create_new_budget():
+def create_new_budget(user_worksheet):
     """
-    Creates a new budget for the user.
+    Creates a new budget and displays it to the user.
     """
 
-    print("Create a new budget")
+    while True:
+
+        income = input("\nPlease enter the income for the month: ")
+
+        if income.replace(".", "", 1).isdigit():
+            income = float(income)
+            break
+        else:
+            print("Please enter a valid number.\n")
+            continue
+
+    # Get the standard budget and apply it to the income.
+    standard_budget = user_worksheet.col_values(2)[1:]
+    budget = [(income * float(num)) for num in standard_budget]
+
+    # Then create a dictionary to display the newly generated budget
+    budget_categories = user_worksheet.col_values(1)[1:]
+    user_budget = dict(zip(budget_categories, budget))
+
+    print(75 * "-")
+    print("\nNew budget\n")
+    print(75 * "-")
+
+    # Display the budget to the user
+    for category, value in user_budget.items():
+        print(f"{category:25} {value:25}")
+
+    print("\n")
 
 
 def select_month():
