@@ -162,10 +162,33 @@ def new_budget(user_id):
     """
 
     user_worksheet = SHEET.worksheet(user_id)
-    select_month(user_worksheet)
+
+    selection = select_month()
+    if selection == "0":
+        print("Take me to main menu")
+    else:
+        col_num = int(selection) * 3
+        column = user_worksheet.col_values(col_num)
+        budget = column[1:]
+        print(len(budget))
+        print(budget)
+        if len(budget) > 0:
+            print(
+                "A budget already exists.\n"
+                "Would you like to view it instead?")
+        else:
+            create_new_budget()
 
 
-def select_month(user_worksheet):
+def create_new_budget():
+    """
+    Creates a new budget for the user.
+    """
+
+    print("Create a new budget")
+
+
+def select_month():
     """
     Checks and selects the month the user would like to view.
     If it is empty, it alerts the user.
@@ -183,12 +206,7 @@ def select_month(user_worksheet):
         selection = input("\nPlease select a month number: ")
 
         if validate_month(selection):
-            if selection == "0":
-                break
-            else:
-                col_num = int(selection) * 3
-                column = user_worksheet.col_values(col_num)
-                print(column[1:])
+            return selection
 
 
 def validate_month(selection):
