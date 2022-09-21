@@ -77,7 +77,7 @@ def load_username(username):
 
     while True:
 
-        users = SHEET.worksheet("users")
+        users = SHEET.worksheet("data")
         find_user = users.find(username)
 
         if find_user is not None:
@@ -113,7 +113,7 @@ def create_username(username):
             print("Creating user data...")
             break
 
-    users_worksheet = SHEET.worksheet("users")
+    users_worksheet = SHEET.worksheet("data")
 
     # get the last number of the id column and add 1
     id_data = users_worksheet.col_values(1)
@@ -155,6 +155,58 @@ def validate_letters_only(data):
     return True
 
 
+def new_budget(user_id):
+    """
+    Checks to see if the budget exists for the selected month
+    and call the create_new_budget function.
+    """
+
+    user_worksheet = SHEET.worksheet(user_id)
+    select_month(user_worksheet)
+
+
+def select_month(user_worksheet):
+    """
+    Checks and selects the month the user would like to view.
+    If it is empty, it alerts the user.
+    """
+
+    while True:
+        # generate the list of month using th data worksheet
+        months_worksheet = SHEET.worksheet("data")
+        months = months_worksheet.col_values(4)
+
+        print("0. Return to main menu")
+        for month in months[1:]:
+            print(month)
+
+        selection = input("\nPlease select a month number: ")
+
+        if validate_month(selection):
+            if selection == "0":
+                break
+            else:
+                col_num = int(selection) * 3
+                column = user_worksheet.col_values(col_num)
+                print(column[1:])
+
+
+def validate_month(selection):
+    """
+    Validate the input from the month selection.
+    """
+    try:
+        if int(selection) > 12:
+            raise ValueError(
+                "Invalid selection!"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e} Please try again.\n")
+        return False
+
+    return True
+
+
 def main():
     """
     Run all programm functions.
@@ -180,20 +232,27 @@ def main():
         option = input("Your selections: ")
 
         if option == "1":
-            print("New budget")
+            new_budget(user_id)
+
         elif option == "2":
             print("View budget")
+
         elif option == "3":
             print("Update budget")
+
         elif option == "4":
             print("Add transaction")
+
         elif option == "5":
             print("View transactions")
+
         elif option == "6":
             print("Thank you for using Finance Guardian, good bye!")
             quit()
+
         else:
             print("Invalid option")
 
 
-main()
+# main()
+new_budget("1")
