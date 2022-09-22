@@ -232,11 +232,11 @@ def select_month():
 
         selection = input("\nYour selection: ")
 
-        if validate_month(selection):
+        if validate_list_selection(selection, 12):
             return selection
 
 
-def validate_month(selection):
+def validate_list_selection(selection, max_num):
     """
     Validate the input from the month selection.
     """
@@ -246,12 +246,12 @@ def validate_month(selection):
                 "Please select only numbers"
             )
 
-        if int(selection) > 12:
+        if int(selection) > max_num:
             raise ValueError(
                 "Select a number from the list."
             )
     except ValueError as e:
-        print(f"Invalid data: {e} Please try again.\n")
+        print(f"\nInvalid data: {e} Please try again.\n")
         return False
 
     return True
@@ -382,6 +382,109 @@ def view_budget(user_id):
             print("Invalid option! Please enter only Y or N.")
 
 
+def update_budget(user_id):
+    """
+    Gives the user an option to update an existing budget.
+    """
+
+    # Title
+    print(75 * "-")
+    print("\nUpdate Budget\n")
+    print(75 * "-")
+
+    user_wks = SHEET.worksheet(user_id)
+
+    # function to allow the user to select a month and validate
+    selection = select_month()
+
+    # return the selection and analyse what was inputed
+    if selection == "0":
+        return
+    
+    col_num = (int(selection) * 2) + 1
+    month_income = user_wks.col_values(col_num)[-1]
+
+    # check if a budget exists
+    if month_income == "0":
+        print("\nThis budget is empty.\n")
+
+        while True:
+            option = input("Would you like to create a new one? y/n\n")
+
+            if option == "n":
+                break
+            elif option == "y":
+                new_budget(user_id)
+                break
+            else:
+                print("Invalid option! Please enter only Y or N.")
+    else:
+        data = input_new_budget(user_wks, col_num)
+        save_data(user_wks, data, col_num)
+
+    # Option for the user to update a new budget
+    while True:
+        option = input("\nWould you like to update a new budget? y/n\n")
+
+        if option == "n":
+            return
+        elif option == "y":
+            update_budget(user_id)
+            break
+        else:
+            print("Invalid option! Please enter only Y or N.")
+
+
+def input_new_budget(user_wks, col_num):
+    """
+    Allows the user to update an existing budget.
+    """
+
+    data = user_wks.col_values(col_num)[1:]
+    display_data(user_wks, data, col_num)   
+    
+    while True:
+        selection = input(
+            "\nPlease select a category to update,"
+            "\nor select 0 to finish updating:\n")
+
+        if selection == "0":
+            break
+        
+        elif validate_list_selection(selection, 10):
+            
+            # Give the user the option to input a new value
+            while True:
+
+                value = input("\nPlease enter new value:\n")
+
+                if value.replace(".", "", 1).isdigit():
+                    value = float(value)
+                    break
+                print("Please enter a valid number.")
+            
+            data[int(selection) - 1] = str(value)
+            display_data(user_wks, data, col_num)
+
+    return data      
+
+
+def validate_numbers(selection):
+    """
+    Validates the user input to be only numbers.
+    """
+    try:
+        if not selection.isnumeric():
+            raise ValueError(
+                "Please select only numbers."
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e} Please try again.\n")
+        return False
+
+    return True
+
+
 def main():
     """
     Run all programm functions.
@@ -401,9 +504,11 @@ def main():
             "\n1. New budget\n"
             "2. View budget\n"
             "3. Update budget\n"
-            "4. Add transaction\n"
-            "5. View transactions\n"
-            "6. Log out\n")
+            "4. Delete budget\n"
+            "5. Add transaction\n"
+            "6. View transactions\n"
+            "7. Delete transactions\n"
+            "8. Log out\n")
 
         option = input("Your selections: ")
 
@@ -414,15 +519,21 @@ def main():
             view_budget(user_id)
 
         elif option == "3":
-            print("Update budget")
+            update_budget(user_id)
 
         elif option == "4":
-            print("Add transaction")
+            print("Delete budget")
 
         elif option == "5":
-            print("View transactions")
+            print("Add transaction")
 
         elif option == "6":
+            print("View transactions")
+        
+        elif option == "7":
+            print("Delete transactions")
+
+        elif option == "8":
             print(
                 "\nThank you for using Finance Guardian.\n"
                 f"Good bye {name}!\n")
