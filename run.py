@@ -191,7 +191,7 @@ def new_budget(user_id):
                 print("Invalid option! Please enter only Y or N.")
         
     data = create_new_budget(user_wks)
-    display_data(user_wks, data, col_num)
+    display_budget_data(user_wks, data, col_num)
     save_data(user_wks, data, col_num)
 
     # Option for the user to create a new budget
@@ -279,12 +279,12 @@ def create_new_budget(user_wks):
     return budget
 
 
-def display_data(user_wks, data, col_num):
+def display_budget_data(user_wks, data, col_num):
     """
     Displays the data passed throught the function call.
     """
 
-    # Then create a dictionary to display the newly generated budget
+    # Create a dictionary to display the newly generated budget
     budget_categories = user_wks.col_values(1)[1:]
     expenses = user_wks.col_values(col_num + 1)[1:]
     user_data = dict(zip(budget_categories, data))
@@ -299,8 +299,8 @@ def display_data(user_wks, data, col_num):
     # Using for loop to display the budget to the user
     print(f"{title1:25} {title2:25} {title3:25}\n")
 
+    ind = 0
     for category, budget in user_data.items():
-        ind = 0
         expense = expenses[ind]
         ind += 1
         print(f"{category:25} {budget:25} {expense:25}")
@@ -367,7 +367,7 @@ def view_budget(user_id):
                 print("Invalid option! Please enter only Y or N.")
     else:
         data = user_wks.col_values(col_num)[1:]
-        display_data(user_wks, data, col_num)
+        display_budget_data(user_wks, data, col_num)
 
     # Option for the user to view a new budget
     while True:
@@ -419,7 +419,7 @@ def update_budget(user_id):
             else:
                 print("Invalid option! Please enter only Y or N.")
     else:
-        data = input_new_data(user_wks, col_num)
+        data = input_new_budget(user_wks, col_num)
         save_data(user_wks, data, col_num)
 
     # Option for the user to update a new budget
@@ -435,13 +435,13 @@ def update_budget(user_id):
             print("Invalid option! Please enter only Y or N.")
 
 
-def input_new_data(user_wks, col_num):
+def input_new_budget(user_wks, col_num):
     """
-    Allows the user to update an existing budget.
+    Allows the user to update existing data in budgets.
     """
 
     data = user_wks.col_values(col_num)[1:]
-    display_data(user_wks, data, col_num)   
+    display_budget_data(user_wks, data, col_num)
     
     while True:
         selection = input(
@@ -464,7 +464,7 @@ def input_new_data(user_wks, col_num):
                 print("Please enter a valid number.")
             
             data[int(selection) - 1] = str(value)
-            display_data(user_wks, data, col_num)
+            display_budget_data(user_wks, data, col_num)
 
     return data      
 
@@ -531,7 +531,7 @@ def update_transaction(user_id):
     
     col_num = (int(selection) * 2) + 2
     
-    data = input_new_data(user_wks, col_num)
+    data = input_new_transaction(user_wks, col_num)
     save_data(user_wks, data, col_num)
 
     # Option for the user to update transaction on a new month
@@ -545,6 +545,67 @@ def update_transaction(user_id):
             break
         else:
             print("Invalid option! Please enter only Y or N.")
+
+
+def input_new_transaction(user_wks, col_num):
+    """
+    Allows the user to update existing data in transactions.
+    """
+
+    data = user_wks.col_values(col_num)[1:]
+    display_transaction_data(user_wks, data, col_num)
+    
+    while True:
+        selection = input(
+            "\nPlease select a category to update,"
+            "\nor select 0 to finish updating:\n")
+
+        if selection == "0":
+            break
+        
+        elif validate_list_selection(selection, 10):
+            
+            # Give the user the option to input a new value
+            while True:
+
+                value = input("\nPlease enter a value:\n")
+
+                if value.replace(".", "", 1).isdigit():
+                    value = float(value)
+                    break
+                print("Please enter a valid number.")
+            
+            data[int(selection) - 1] = str(value)
+            display_transaction_data(user_wks, data, col_num)
+
+    return data  
+
+
+def display_transaction_data(user_wks, data, col_num):
+    """
+    Displays the data passed throught the function call.
+    """
+
+    # Create a dictionary to display the newly generated budget
+    budget_categories = user_wks.col_values(1)[1:]
+    saved_budget = user_wks.col_values(col_num - 1)[1:]
+    user_data = dict(zip(budget_categories, data))
+
+    month = user_wks.col_values(col_num - 1)[0]
+    print(75 * "-")
+    print(f"\n{month} Monthly Budget\n")
+    print(75 * "-")
+
+    title1, title2, title3 = "Categories", "Budget", "Expenses"
+
+    # Using for loop to display the budget to the user
+    print(f"{title1:25} {title2:25} {title3:25}\n")
+
+    ind = 0
+    for category, expense in user_data.items():
+        budget = saved_budget[ind]
+        ind += 1
+        print(f"{category:25} {budget:25} {expense:25}")
 
 
 def main():
