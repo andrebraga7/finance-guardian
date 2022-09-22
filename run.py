@@ -1,3 +1,4 @@
+# Google sheets API
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -90,10 +91,8 @@ def load_username(username):
             user_id = users.cell(find_user.row, 1).value
             print("User data successfully loaded\n")
             break
-        
         print(f"Username: {username} not found!\n")
         option = input("Would you like to create a new username? y/n\n")
-            
         if option == "y":
             name, user_id = create_username(username)
             print("User data successfully loaded\n")
@@ -177,14 +176,12 @@ def new_budget(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 1
     month_income = user_wks.col_values(col_num)[-1]
 
     # check if a budget already exists
     if month_income != "0":
         print("\nA budget already exists.\n")
-        
         while True:
             option = input("Would you like to create a new one? y/n\n")
 
@@ -194,7 +191,6 @@ def new_budget(user_id):
                 break
             else:
                 print("Invalid option! Please enter only Y or N.")
-        
     data = create_new_budget(user_wks)
     display_budget_data(user_wks, data, col_num)
     save_data(user_wks, data, col_num)
@@ -274,7 +270,6 @@ def create_new_budget(user_wks):
         if income.replace(".", "", 1).isdigit():
             income = float(income)
             break
-        
         print("Please enter a valid number.\n")
 
     # Get the standard budget and apply it to the income.
@@ -352,7 +347,6 @@ def view_budget(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 1
     month_income = user_wks.col_values(col_num)[-1]
 
@@ -405,7 +399,6 @@ def update_budget(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 1
     month_income = user_wks.col_values(col_num)[-1]
 
@@ -447,7 +440,6 @@ def input_new_budget(user_wks, col_num):
 
     data = user_wks.col_values(col_num)[1:]
     display_budget_data(user_wks, data, col_num)
-    
     while True:
         selection = input(
             "\nPlease select a category to update,"
@@ -455,9 +447,7 @@ def input_new_budget(user_wks, col_num):
 
         if selection == "0":
             break
-        
         elif validate_list_selection(selection, 10):
-            
             # Give the user the option to input a new value
             while True:
 
@@ -467,11 +457,10 @@ def input_new_budget(user_wks, col_num):
                     value = float(value)
                     break
                 print("Please enter a valid number.")
-            
             data[int(selection) - 1] = str(value)
             display_budget_data(user_wks, data, col_num)
 
-    return data      
+    return data
 
 
 def delete_budget(user_id):
@@ -492,7 +481,6 @@ def delete_budget(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 1
     month = user_wks.col_values(col_num)[0]
 
@@ -533,15 +521,15 @@ def update_transaction(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 2
-    
     data = input_new_transaction(user_wks, col_num)
     save_data(user_wks, data, col_num)
 
     # Option for the user to update transaction on a new month
     while True:
-        option = input("\nWould you like to update transactions in a new month? y/n\n")
+        option = input(
+            "\nWould you like to update transactions\n"
+            "in a new month? y/n\n")
 
         if option == "n":
             return
@@ -559,7 +547,6 @@ def input_new_transaction(user_wks, col_num):
 
     data = user_wks.col_values(col_num)[1:]
     display_transaction_data(user_wks, data, col_num)
-    
     while True:
         selection = input(
             "\nPlease select a category to update,"
@@ -567,9 +554,7 @@ def input_new_transaction(user_wks, col_num):
 
         if selection == "0":
             break
-        
         elif validate_list_selection(selection, 10):
-            
             # Give the user the option to input a new value
             while True:
 
@@ -579,11 +564,10 @@ def input_new_transaction(user_wks, col_num):
                     value = float(value)
                     break
                 print("Please enter a valid number.")
-            
             data[int(selection) - 1] = str(value)
             display_transaction_data(user_wks, data, col_num)
 
-    return data  
+    return data
 
 
 def display_transaction_data(user_wks, data, col_num):
@@ -632,7 +616,6 @@ def view_transaction(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 2
 
     data = user_wks.col_values(col_num)[1:]
@@ -669,7 +652,6 @@ def delete_transactions(user_id):
     # return the selection and analyse what was inputed
     if selection == "0":
         return
-    
     col_num = (int(selection) * 2) + 2
     month = user_wks.col_values(col_num - 1)[0]
 
