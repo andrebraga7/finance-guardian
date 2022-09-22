@@ -178,7 +178,7 @@ def new_budget(user_id):
 
     # check if a budget already exists
     if month_income != "0":
-        print("A budget already exists.\n")
+        print("\nA budget already exists.\n")
         
         while True:
             option = input("Would you like to create a new one? y/n\n")
@@ -274,7 +274,7 @@ def create_new_budget(user_wks):
 
     # Get the standard budget and apply it to the income.
     standard_budget = user_wks.col_values(2)[1:]
-    budget = [str((income * float(num))) for num in standard_budget]
+    budget = [str(income * float((int(num) / 100))) for num in standard_budget]
 
     return budget
 
@@ -289,8 +289,9 @@ def display_data(user_wks, data, col_num):
     expenses = user_wks.col_values(col_num + 1)[1:]
     user_data = dict(zip(budget_categories, data))
 
+    month = user_wks.col_values(col_num)[0]
     print(75 * "-")
-    print("\nMonthly Budget\n")
+    print(f"\n{month} Monthly Budget\n")
     print(75 * "-")
 
     title1, title2, title3 = "Categories", "Budget", "Expenses"
@@ -321,9 +322,9 @@ def save_data(user_wks, data, col_num):
             value = data[ind]
             user_wks.update_cell(row, col_num, value)
 
-        print("\nSuccessfully saved!\n")
+        print("\nSuccessfully saved!")
     else:
-        print("Not saved.")
+        print("\nNot saved.")
 
 
 def view_budget(user_id):
@@ -352,7 +353,7 @@ def view_budget(user_id):
 
     # check if a budget exists
     if month_income == "0":
-        print("This budget is empty.\n")
+        print("\nThis budget is empty.\n")
 
         while True:
             option = input("Would you like to create a new one? y/n\n")
@@ -422,7 +423,9 @@ def main():
             print("View transactions")
 
         elif option == "6":
-            print("Thank you for using Finance Guardian, good bye!")
+            print(
+                "\nThank you for using Finance Guardian.\n"
+                f"Good bye {name}!\n")
             quit()
 
         else:
