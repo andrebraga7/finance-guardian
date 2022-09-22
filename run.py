@@ -469,22 +469,6 @@ def input_new_budget(user_wks, col_num):
     return data      
 
 
-def validate_numbers(selection):
-    """
-    Validates the user input to be only numbers.
-    """
-    try:
-        if not selection.isnumeric():
-            raise ValueError(
-                "Please select only numbers."
-            )
-    except ValueError as e:
-        print(f"Invalid data: {e} Please try again.\n")
-        return False
-
-    return True
-
-
 def main():
     """
     Run all programm functions.
