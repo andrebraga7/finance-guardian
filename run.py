@@ -22,7 +22,7 @@ def welcome_message():
     """
 
     print(70*"_")
-    logo = pyfiglet.figlet_format("FINANCE GUARDIAN")
+    logo = pyfiglet.figlet_format("Finance Guardian", font="big")
     print(logo)
     print("\n Welcome to Finance Guardian!\n")
     print(" Your personal budgeting app. \n")
