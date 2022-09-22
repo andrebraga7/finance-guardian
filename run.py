@@ -419,7 +419,7 @@ def update_budget(user_id):
             else:
                 print("Invalid option! Please enter only Y or N.")
     else:
-        data = input_new_budget(user_wks, col_num)
+        data = input_new_data(user_wks, col_num)
         save_data(user_wks, data, col_num)
 
     # Option for the user to update a new budget
@@ -435,7 +435,7 @@ def update_budget(user_id):
             print("Invalid option! Please enter only Y or N.")
 
 
-def input_new_budget(user_wks, col_num):
+def input_new_data(user_wks, col_num):
     """
     Allows the user to update an existing budget.
     """
@@ -456,7 +456,7 @@ def input_new_budget(user_wks, col_num):
             # Give the user the option to input a new value
             while True:
 
-                value = input("\nPlease enter new value:\n")
+                value = input("\nPlease enter a value:\n")
 
                 if value.replace(".", "", 1).isdigit():
                     value = float(value)
@@ -510,6 +510,43 @@ def delete_budget(user_id):
     save_data(user_wks, data, col_num)
 
 
+def update_transaction(user_id):
+    """
+    Give the user the option to add or update a transaction.
+    """
+
+    # Title
+    print(75 * "-")
+    print("\nAdd or Update Transaction\n")
+    print(75 * "-")
+
+    user_wks = SHEET.worksheet(user_id)
+
+    # function to allow the user to select a month and validate
+    selection = select_month()
+
+    # return the selection and analyse what was inputed
+    if selection == "0":
+        return
+    
+    col_num = (int(selection) * 2) + 2
+    
+    data = input_new_data(user_wks, col_num)
+    save_data(user_wks, data, col_num)
+
+    # Option for the user to update transaction on a new month
+    while True:
+        option = input("\nWould you like to update transactions in a new month? y/n\n")
+
+        if option == "n":
+            return
+        elif option == "y":
+            update_transaction(user_id)
+            break
+        else:
+            print("Invalid option! Please enter only Y or N.")
+
+
 def main():
     """
     Run all programm functions.
@@ -530,7 +567,7 @@ def main():
             "2. View budget\n"
             "3. Update budget\n"
             "4. Delete budget\n"
-            "5. Add transaction\n"
+            "5. Add or update transaction\n"
             "6. View transactions\n"
             "7. Delete transactions\n"
             "8. Log out\n")
@@ -550,7 +587,7 @@ def main():
             delete_budget(user_id)
 
         elif option == "5":
-            print("Add transaction")
+            update_transaction(user_id)
 
         elif option == "6":
             print("View transactions")
