@@ -1,6 +1,9 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Created the logo using pyfiglet
+import pyfiglet
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -19,6 +22,8 @@ def welcome_message():
     """
 
     print(70*"_")
+    logo = pyfiglet.figlet_format("FINANCE GUARDIAN")
+    print(logo)
     print("\n Welcome to Finance Guardian!\n")
     print(" Your personal budgeting app. \n")
     print(70*"-")
@@ -117,7 +122,7 @@ def create_username(username):
 
     # get the last number of the id column and add 1
     id_data = users_worksheet.col_values(1)
-    user_id = int(id_data[-1]) + 1
+    user_id = str(int(id_data[-1]) + 1)
 
     user_data = [user_id, username, name]
     users_worksheet.append_row(user_data)
