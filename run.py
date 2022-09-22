@@ -118,7 +118,6 @@ def create_username(username):
     # get the last number of the id column and add 1
     id_data = users_worksheet.col_values(1)
     user_id = int(id_data[-1]) + 1
-    print(user_id)
 
     user_data = [user_id, username, name]
     users_worksheet.append_row(user_data)
@@ -142,7 +141,6 @@ def validate_letters_only(data):
             raise ValueError(
                 "You must only use letters and spaces."
             )
-        
         if data.isspace() or len(data) == 0:
             raise ValueError(
                 "This field cannot be empty."
@@ -166,7 +164,7 @@ def new_budget(user_id):
     print("\nCreate new budget\n")
     print(75 * "-")
 
-    user_worksheet = SHEET.worksheet(user_id)
+    user_wks = SHEET.worksheet(user_id)
 
     # function to allow the user to select a month and validate
     selection = select_month()
@@ -175,8 +173,8 @@ def new_budget(user_id):
     if selection == "0":
         return
     
-    col_num = int(selection) * 3
-    month_income = user_worksheet.col_values(col_num)[-1]
+    col_num = int(selection) * 2
+    month_income = user_wks.col_values(col_num)[-1]
 
     # check if a budget already exists
     if month_income != "0":
@@ -186,9 +184,11 @@ def new_budget(user_id):
         if option == "n":
             return
         
-    budget = create_new_budget(user_worksheet)
+    data = create_new_budget(user_wks)
 
-    save_budget(user_worksheet, budget, col_num)
+    display_data(user_wks, data, col_num)
+
+    save_data(user_wks, data, col_num)
 
 
 def select_month():
@@ -198,13 +198,20 @@ def select_month():
     """
 
     while True:
-        # generate the list of month using th data worksheet
-        months_worksheet = SHEET.worksheet("data")
-        months = months_worksheet.col_values(4)
-
-        print("0. Return to main menu")
-        for month in months[1:]:
-            print(month)
+        print(
+            "1. January"
+            "2. February"
+            "3. March"
+            "4. April"
+            "5. May"
+            "6. June"
+            "7. July"
+            "8. August"
+            "9. September"
+            "10. October"
+            "11. November"
+            "12. December"
+            "0. Return to main menu")
 
         selection = input("\nPlease select a month number: ")
 
@@ -219,16 +226,16 @@ def validate_month(selection):
     try:
         if int(selection) > 12:
             raise ValueError(
-                "Invalid selection!"
+                "Select a number from the list."
             )
     except ValueError as e:
-        print(f"Invalid data: {e} Please try again.\n")
+        print(f"{e} Please try again.\n")
         return False
 
     return True
 
 
-def create_new_budget(user_worksheet):
+def create_new_budget(user_wks):
     """
     Creates a new budget and displays it to the user.
     """
@@ -244,43 +251,53 @@ def create_new_budget(user_worksheet):
         print("Please enter a valid number.\n")
 
     # Get the standard budget and apply it to the income.
-    standard_budget = user_worksheet.col_values(2)[1:]
+    standard_budget = user_wks.col_values(2)[1:]
     budget = [str((income * float(num))) for num in standard_budget]
-
-    # Then create a dictionary to display the newly generated budget
-    budget_categories = user_worksheet.col_values(1)[1:]
-    user_budget = dict(zip(budget_categories, budget))
-
-    print(75 * "-")
-    print("\nNew budget\n")
-    print(75 * "-")
-
-    # Display the budget to the user
-    for category, value in user_budget.items():
-        print(f"{category:25} {value:25}")
 
     return budget
 
 
-def save_budget(user_worksheet, budget, col_num):
+def display_data(user_wks, data, col_num):
     """
-    Gives the user to save the budget or not.
+    Displays the data passed throught the function call.
     """
 
-    option = input("\nWould you like to save the budget? y/n ")
+    # Then create a dictionary to display the newly generated budget
+    budget_categories = user_wks.col_values(1)[1:]
+    expenses = user_wks.col_values(col_num + 1)[1:]
+    user_budget = dict(zip(budget_categories, data, expenses))
+
+    print(75 * "-")
+    print("\nMonthly Budget\n")
+    print(75 * "-")
+
+    title1, title2, title3 = "Categories", "Budget", "Expenses"
+
+    # Display the budget to the user
+    print(f"{title1:25} {title2:25} {title3:25}")
+    for category, budget, expense in user_budget.items():
+        print(f"{category:25} {budget:25} {expense:25}")
+
+
+def save_data(user_wks, data, col_num):
+    """
+    Gives the user an option to save to the sheet.
+    """
+
+    option = input("\nWould you like to save? y/n ")
 
     if option == "y":
-        print("\nSaving budget...")
+        print("\nSaving...")
 
         # iterate through the list and update the sheet
-        for ind in range(len(budget)):
+        for ind in range(len(data)):
             row = ind + 2
-            value = budget[ind]
-            user_worksheet.update_cell(row, col_num, value)
+            value = data[ind]
+            user_wks.update_cell(row, col_num, value)
 
-        print("\nBudget successfully saved!\n")
+        print("\nSuccessfully saved!\n")
     else:
-        print("Budget not saved.")
+        print("Not saved.")
 
 
 def main():
