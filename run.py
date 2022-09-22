@@ -725,31 +725,23 @@ def main():
 
         if option == "1":
             new_budget(user_id)
-
         elif option == "2":
             view_budget(user_id)
-
         elif option == "3":
             update_budget(user_id)
-
         elif option == "4":
             delete_budget(user_id)
-
         elif option == "5":
             update_transaction(user_id)
-
         elif option == "6":
             view_transaction(user_id)
-        
         elif option == "7":
             delete_transactions(user_id)
-
         elif option == "8":
             print(
                 "\nThank you for using Finance Guardian.\n"
                 f"Good bye {name}!\n")
             quit()
-
         else:
             print("Invalid option")
 
