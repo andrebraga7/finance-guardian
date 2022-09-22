@@ -299,7 +299,7 @@ def display_budget_data(user_wks, data, col_num):
     print(f"\n{month} Monthly Budget\n")
     print(75 * "-")
 
-    title1, title2, title3 = "Categories", "Budget", "Expenses"
+    title1, title2, title3 = "Categories", "Budget", "Transactions"
 
     # Using for loop to display the budget to the user
     print(f"{title1:25} {title2:25} {title3:25}\n")
@@ -601,7 +601,7 @@ def display_transaction_data(user_wks, data, col_num):
     print(f"\n{month} Monthly Budget\n")
     print(75 * "-")
 
-    title1, title2, title3 = "Categories", "Budget", "Expenses"
+    title1, title2, title3 = "Categories", "Budget", "Transactions"
 
     # Using for loop to display the budget to the user
     print(f"{title1:25} {title2:25} {title3:25}\n")
