@@ -41,7 +41,7 @@ def username_input():
         print("It must only contain letters and or numbers")
         print("and be 5 to 10 characters long.\n")
 
-        username = input("Username: ")
+        username = input("Username: \n")
 
         if validate_username(username):
             print("Loading user data...\n")
@@ -231,7 +231,7 @@ def select_month():
             "12. December\n"
             "0. Return to main menu")
 
-        selection = input("\nYour selection: ")
+        selection = input("\nYour selection: \n")
 
         if validate_list_selection(selection, 12):
             return selection
@@ -265,7 +265,7 @@ def create_new_budget(user_wks):
 
     while True:
 
-        income = input("\nPlease enter the income for the month: ")
+        income = input("\nPlease enter the income for the month: \n")
 
         if income.replace(".", "", 1).isdigit():
             income = float(income)
@@ -311,7 +311,7 @@ def save_data(user_wks, data, col_num):
     Gives the user an option to save to the sheet.
     """
 
-    option = input("\nWould you like to save? y/n ")
+    option = input("\nWould you like to save? y/n \n")
 
     if option == "y":
         print("\nSaving...")
@@ -703,7 +703,7 @@ def main():
             "7. Delete transactions\n"
             "8. Log out\n")
 
-        option = input("Your selections: ")
+        option = input("Your selections: \n")
 
         if option == "1":
             new_budget(user_id)
