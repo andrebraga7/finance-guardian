@@ -582,7 +582,7 @@ def display_transaction_data(user_wks, data, col_num):
 
     month = user_wks.col_values(col_num - 1)[0]
     print(75 * "-")
-    print(f"\n{month} Monthly Budget\n")
+    print(f"\n{month} Monthly Transactions\n")
     print(75 * "-")
 
     title1, title2, title3 = "Categories", "Budget", "Transactions"
