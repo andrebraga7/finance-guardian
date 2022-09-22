@@ -329,7 +329,7 @@ def save_data(user_wks, data, col_num):
 
 def view_budget(user_id):
     """
-    Gives the user an option to select a mont
+    Gives the user an option to select a month
     and checks to see if a budget exists. If yes, it then
     displays the budget to the user.
     """
@@ -606,6 +606,44 @@ def display_transaction_data(user_wks, data, col_num):
         budget = saved_budget[ind]
         ind += 1
         print(f"{category:25} {budget:25} {expense:25}")
+
+
+def view_transaction(user_id):
+    """
+    Gives the user an option to select a month
+    and display all transactions.
+    """
+
+    # Title
+    print(75 * "-")
+    print("\nView Transactions\n")
+    print(75 * "-")
+
+    user_wks = SHEET.worksheet(user_id)
+
+    # function to allow the user to select a month and validate
+    selection = select_month()
+
+    # return the selection and analyse what was inputed
+    if selection == "0":
+        return
+    
+    col_num = (int(selection) * 2) + 2
+
+    data = user_wks.col_values(col_num)[1:]
+    display_transaction_data(user_wks, data, col_num)
+
+    # Option for the user to view a new budget
+    while True:
+        option = input("\nWould you like to view a new month? y/n\n")
+
+        if option == "n":
+            return
+        elif option == "y":
+            view_transaction(user_id)
+            break
+        else:
+            print("Invalid option! Please enter only Y or N.")
 
 
 def delete_transactions(user_id):
