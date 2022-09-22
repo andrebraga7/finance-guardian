@@ -469,6 +469,47 @@ def input_new_budget(user_wks, col_num):
     return data      
 
 
+def delete_budget(user_id):
+    """
+    This function allows the user to delete a budget.
+    """
+
+    # Title
+    print(75 * "-")
+    print("\nDelete Budget\n")
+    print(75 * "-")
+
+    user_wks = SHEET.worksheet(user_id)
+
+    # function to allow the user to select a month and validate
+    selection = select_month()
+
+    # return the selection and analyse what was inputed
+    if selection == "0":
+        return
+    
+    col_num = (int(selection) * 2) + 1
+    month = user_wks.col_values(col_num)[0]
+
+    while True:
+        option = input(f"Confirm deletion of {month}'s budget? y/n\n")
+
+        if option == "n":
+            return
+        elif option == "y":
+            break
+        else:
+            print("Invalid option! Please enter only Y or N.")
+
+    print(f"Deleting {month}'s budget...")
+    data = user_wks.col_values(col_num)[1:]
+
+    for num in range(len(data)):
+        data[num] = "0"
+
+    save_data(user_wks, data, col_num)
+
+
 def main():
     """
     Run all programm functions.
@@ -506,7 +547,7 @@ def main():
             update_budget(user_id)
 
         elif option == "4":
-            print("Delete budget")
+            delete_budget(user_id)
 
         elif option == "5":
             print("Add transaction")
