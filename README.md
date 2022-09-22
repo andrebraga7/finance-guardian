@@ -7,9 +7,9 @@ Finance Guardian is a Python terminal personal budgeting app that runs on Heroku
 1. Create a Python terminal app to allow the user to input an income for a certain month and have a proposed budget generated;
 2. Allow the user to visualize on a monthly bases a personal finance budget and add transactions to keep up with spendings.
 
-You can follow the project along by visisting the mock terminal [Here](link)
+You can follow the project along by visisting the mock terminal [Here](https://finance-guardian.herokuapp.com/)
 
-![Website responsive design](assets/readme-images/responsive-design.jpg)
+![Logo](assets/readme-images/logo.jpg)
 
 # Table of content
 
@@ -49,13 +49,13 @@ The Finance Guardian app was developed to have a user friendly interface in the 
 
 As soon as the user loads the app he is greated with the logo which was created using the [pyfiglet module](https://pypi.org/project/pyfiglet/0.7/).
 
-![Welcome message](assets/readme-images/quiz-area.jpg)
+![Logo](assets/readme-images/logo.jpg)
 
 Bellow the welcome message, the user is asked to input the username. If the user does not have a username, it then asks if he would like one created. If the user selects yes, a new data sheet and username is created.
 
 - After the user enters a username it then validades the inputed username to check if it's alhpanumeric only and has between 5 and 10 characters.
 
-![Enter username](assets/readme-images/quiz-area.jpg)
+![Enter username](assets/readme-images/welcome_message.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -65,7 +65,7 @@ After loading the user data, the app takes the user to the main menu with eight 
 
 - If the user selects anything else from the given options it will say "Ivalid option" and promt the user to enter a new selection.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Main menu](assets/readme-images/main_menu.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -79,7 +79,7 @@ When the new budget option is selected, the user is promted to select a month in
 
 - It then asks for the user to input an income for the month, which then generated a proposed budget for that month. After generating the budget, it will display it to the user and ask if he would like to save it, if no is selected it takes the user back to the main menu.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![New budget](assets/readme-images/new_budget.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -89,7 +89,7 @@ The view budget is very similar to the new budget. It asks the user to select a 
 
 - After the user view the budget he has the option to view a different month or be taken back to the main menu.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![View budget](assets/readme-images/view_budget.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -101,7 +101,7 @@ In the update budget options. The user is prompted to select a month and then th
 
 - When the user is done, it prompts him to save or not the updates.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Update budget](assets/readme-images/update_budget.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -111,7 +111,7 @@ When the delete budget option is selected, it prompts the user to select the mon
 
 - After a valid selection is made, it asks the suer to confirm the deletion of the budget before proceeding.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Delete budget](assets/readme-images/delete_budget.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -121,7 +121,7 @@ When adding or updating transactions, the app gives the user to option to first 
 
 - After adding a transaction amount, the user can continue adding other transactions until 0 is selected, which then prompts the user to save or not the update.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Add transactions](assets/readme-images/add_transactions.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -129,7 +129,7 @@ When adding or updating transactions, the app gives the user to option to first 
 
 When viewing transactions, the app asks for a month to be selected an displays the table with categories, budget and transaction amounts for each one.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![View transactions](assets/readme-images/view_transactions.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -137,7 +137,7 @@ When viewing transactions, the app asks for a month to be selected an displays t
 
 If the user selects to delete a transactions, he is prompted to first select a month and then a confirmation message follows to confirm either yes or no for the deletion.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Delete transactions](assets/readme-images/delete_transactions.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -145,7 +145,7 @@ If the user selects to delete a transactions, he is prompted to first select a m
 
 Finaly the log out option, generated a good bye message with the user's name and exits the app.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Log out](assets/readme-images/log_out.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -165,13 +165,15 @@ This project uses Google Sheets and Good Drive to store all the users data.
 - Each user is assigned a unique user id which is then used to generate a blank sheet from a template for the user;
 - In the future when using a different data storage other than Google Sheets, it would allow for more organized data storage.
 
+![Data model](assets/readme-images/data_model.jpg)
+
 [Back to table of content](#table-of-content)
 
 # Flow Chart
 
 Bellow you can see the flow chart that was used to first visualize the app. A couple of extra features were added during development.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Flow chart](assets/readme-images/flowchart.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -181,10 +183,21 @@ Manual testing was done throught the project development. If invalid data is inp
 
 Bellow are a couple of examples of validation or input errors handled by the app:
 
-- Example 1
-- Example 2
-- Example 3
-- Example 4
+- Username not found
+
+![Validation error 1](assets/readme-images/username_not_found.jpg)
+
+- Invalid username
+
+![Validation error 2](assets/readme-images/invalid_username.jpg)
+
+- Invalid option
+
+![Validation error 3](assets/readme-images/invalid_option.jpg)
+
+- Invalid data
+
+![Validation error 4](assets/readme-images/invalid_data.jpg)
 
 [Back to table of content](#table-of-content)
 
@@ -192,7 +205,7 @@ Bellow are a couple of examples of validation or input errors handled by the app
 
 The code was run through the [PEP8 Online validator](http://pep8online.com/) and after a couple of blank lines and trailing spaces were removed, it passed the validator with no issues.
 
-![Main menu](assets/readme-images/quiz-area.jpg)
+![Validator](assets/readme-images/validator.jpg)
 
 [Back to table of content](#table-of-content)
 
