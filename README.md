@@ -217,7 +217,8 @@ The code was run through the [PEP8 Online validator](http://pep8online.com/) and
     - When creating a new user id, the id was beeing saved as an integer which was generating an error when trying to access the user's woksheet. This was resolves by converting the user id into a string before saving it to the data sheet.
 
 - ## Unresolved
-    - During this point, there are no known unresolved issues.
+    - When creating a new budget and entering a month income with broken decimals, it generates a long number when displaying the budget. This need to be resolved by limiting the budget number to two decimal places only, before saving the budget;
+    - Other than what is specified above, here are no known unresolved issues.
 
 [Back to table of content](#table-of-content)
 
