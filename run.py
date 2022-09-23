@@ -295,16 +295,18 @@ def display_budget_data(user_wks, data, col_num):
     print(f"\n{month} Monthly Budget\n")
     print(75 * "-")
 
-    title1, title2, title3 = "Categories", "Budget", "Transactions"
+    title1, title2 = "Categories", "Budget"
+    title3, title4 = "Transactions", "Balance"
 
     # Using for loop to display the budget to the user
-    print(f"{title1:25} {title2:25} {title3:25}\n")
+    print(f"{title1:25} {title2:15} {title3:15} {title4}\n")
 
     ind = 0
     for category, budget in user_data.items():
         expense = expenses[ind]
         ind += 1
-        print(f"{category:25} {budget:25} {expense:25}")
+        balance = float(budget) - float(expense)
+        print(f"{category:25} {budget:15} {expense:15} {balance}")
 
 
 def save_data(user_wks, data, col_num):
@@ -586,16 +588,18 @@ def display_transaction_data(user_wks, data, col_num):
     print(f"\n{month} Monthly Transactions\n")
     print(75 * "-")
 
-    title1, title2, title3 = "Categories", "Budget", "Transactions"
+    title1, title2 = "Categories", "Budget"
+    title3, title4 = "Transactions", "Balance"
 
     # Using for loop to display the budget to the user
-    print(f"{title1:25} {title2:25} {title3:25}\n")
+    print(f"{title1:25} {title2:15} {title3:15} {title4}\n")
 
     ind = 0
     for category, expense in user_data.items():
         budget = saved_budget[ind]
         ind += 1
-        print(f"{category:25} {budget:25} {expense:25}")
+        balance = float(budget) - float(expense)
+        print(f"{category:25} {budget:15} {expense:15} {balance}")
 
 
 def view_transaction(user_id):
