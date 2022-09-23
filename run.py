@@ -22,12 +22,13 @@ def welcome_message():
     This will generate an opening welcome message to the user.
     """
 
-    print(70*"_")
+    print(70*"-")
     logo = pyfiglet.figlet_format("Finance Guardian", font="big")
     print(logo)
-    print("\n Welcome to Finance Guardian!\n")
-    print(" Your personal budgeting app. \n")
+    print(" Welcome to Finance Guardian!")
+    print(" Your personal budgeting app.")
     print(70*"-")
+    input("Please press ENTER to begin:\n")
 
 
 def username_input():
